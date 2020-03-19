@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "strict": true,
+        "strictPropertyInitialization": false,
+        "declaration": true,
+        "skipLibCheck": true,
+        "noImplicitThis": false,
+        "noImplicitAny": false,
+        "lib": ["es2018"],
+        "rootDir": "./src",
+        "outDir": "./lib"
+    },
+    "exclude": ["**/node_modules", "**/lib"]
+}

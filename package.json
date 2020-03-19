@@ -4,17 +4,21 @@
   "description": "The C compiler implemented in JavaScript",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "bootstrap": "lerna run bootstrap",
+    "build": "lerna run build",
+    "test": "jest"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "yeongjet",
+  "license": "BSD 2-Clause",
   "devDependencies": {
-    "@types/jest": "^25.1.3",
-    "@types/node": "^13.7.7",
-    "@types/ramda": "^0.26.43",
-    "@typescript-eslint/eslint-plugin": "^2.22.0",
-    "@typescript-eslint/parser": "^2.22.0",
+    "@types/fs-extra": "^8.1.0",
+    "@types/jest": "^25.1.4",
+    "@types/mockjs": "^1.0.2",
+    "@types/node": "^13.9.2",
+    "@types/ramda": "^0.26.44",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
@@ -23,11 +27,13 @@
     "prettier": "^1.19.1",
     "prettier-eslint": "^9.0.1",
     "ts-jest": "^25.2.1",
-    "ts-node": "^8.6.2",
+    "ts-node": "^8.7.0",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "fs-extra": "^9.0.0",
+    "mockjs": "^1.1.0",
     "ramda": "^0.27.0"
   }
 }

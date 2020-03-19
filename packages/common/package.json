@@ -1,5 +1,5 @@
 {
-    "name": "@jcc/preprocessor",
+    "name": "@jcc/common",
     "version": "0.0.1",
     "description": "The C compiler implemented in JavaScript",
     "main": "index.js",
@@ -7,7 +7,6 @@
     "license": "BSD 2-Clause",
     "scripts": {
       "build": "tsc",
-      "debug": "ts-node --inspect-brk index.ts",
       "test": "jest"
     }
 }

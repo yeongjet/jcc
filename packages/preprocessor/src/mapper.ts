@@ -1,10 +1,3 @@
-/*
- * @Author: yeongjet
- * @Date: 2020-03-06 22:13:53
- * @UpdatedAt: 2020-03-11 22:09:43
- * @Description: Do not edit
- */
-
 import R from 'ramda'
 import { TrigraphSequence, WhiteSpace } from '@jcc/common'
 
@@ -39,7 +32,7 @@ export const mapTrigraphSequence = (s: string): string => {
     for (let i = 0; i < s.length; i++) {
         const sq = `${s[i]}${s[i + 1]}${s[i + 2]}`
         if (TrigraphSequence.set.indexOf(sq) >= 0) {
-            let v = _.find(TrigraphSequence.map, { key: sq }).value
+            const v = _.find(TrigraphSequence.map, { key: sq }).value
             r += v
             i += 2
         } else {
@@ -58,7 +51,7 @@ export const mapTrigraphSequence = (s: string): string => {
 export const splice = (s: string): string => {
     let r = ''
     for (let i = 0; i < s.length; i++) {
-        let sq = `${s[i]}${s[i + 1]}`
+        const sq = `${s[i]}${s[i + 1]}`
         if (sq === '\\\n') {
             i++
         } else {
@@ -78,7 +71,7 @@ export const replaceComment = (s: string): string => {
     let r = ''
     for (let i = 0; i < s.length; i++) {
         if (s[i] === "'" || s[i] === '"') {
-            let t = s[i]
+            const t = s[i]
             r += s[i]
             i++
             while (s[i] !== t) {
@@ -90,7 +83,7 @@ export const replaceComment = (s: string): string => {
             }
             r += s[i]
         } else {
-            let sq = `${s[i]}${s[i + 1]}`
+            const sq = `${s[i]}${s[i + 1]}`
             if (sq === '//') {
                 i += 2
                 while (s[i] != '\n') {
@@ -128,7 +121,7 @@ export const replaceComment = (s: string): string => {
  */
 export const replaceWhiteSpaceSequence = (s: string): string => {
     let r = ''
-    let replaceSet = _.filter(WhiteSpace.set, o => o !== '\n')
+    const replaceSet = _.filter(WhiteSpace.set, o => o !== '\n')
     for (let i = 0; i < s.length; i++) {
         if (replaceSet.indexOf(s[i]) >= 0) {
             if (i >= 1 && s[i - 1] !== '\n') {
