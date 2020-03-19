@@ -1,0 +1,13 @@
+{
+    "name": "@jcc/lexer",
+    "version": "0.0.1",
+    "description": "The C compiler implemented in JavaScript",
+    "main": "index.js",
+    "author": "yeongjet",
+    "license": "BSD 3-Clause",
+    "scripts": {
+      "build": "tsc",
+      "debug": "ts-node --inspect-brk index.ts",
+      "test": "jest"
+    }
+}
