@@ -1,6 +1,6 @@
 {
     "name": "@jcc/preprocessor",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "The C compiler implemented in JavaScript",
     "main": "lib/index.js",
     "typings": "lib/index.d.ts",
@@ -12,7 +12,9 @@
         "test": "jest"
     },
     "dependencies": {
-        "@jcc/common": "^0.0.1"
+        "@jcc/common": "^0.0.2"
     },
-    "files": ["lib"]
+    "files": [
+        "lib"
+    ]
 }
