@@ -2,12 +2,17 @@
     "name": "@jcc/preprocessor",
     "version": "0.0.1",
     "description": "The C compiler implemented in JavaScript",
-    "main": "index.js",
+    "main": "lib/index.js",
+    "typings": "lib/index.d.ts",
     "author": "yeongjet",
     "license": "BSD 2-Clause",
     "scripts": {
-      "build": "tsc",
-      "debug": "ts-node --inspect-brk index.ts",
-      "test": "jest"
-    }
+        "build": "tsc",
+        "debug": "ts-node --inspect-brk index.ts",
+        "test": "jest"
+    },
+    "dependencies": {
+        "@jcc/common": "^0.0.1"
+    },
+    "files": ["lib"]
 }

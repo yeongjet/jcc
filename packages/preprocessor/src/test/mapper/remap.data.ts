@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable quotes */
 import Mock from 'mockjs'
-import { TrigraphSequence, WhiteSpace } from '@ncc/common'
+import { TrigraphSequence, WhiteSpace } from '@jcc/common'
 
 export const common = [
     [

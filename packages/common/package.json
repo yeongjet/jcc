@@ -2,11 +2,13 @@
     "name": "@jcc/common",
     "version": "0.0.1",
     "description": "The C compiler implemented in JavaScript",
-    "main": "index.js",
+    "main": "lib/index.js",
+    "typings": "lib/index.d.ts",
     "author": "yeongjet",
     "license": "BSD 2-Clause",
     "scripts": {
       "build": "tsc",
       "test": "jest"
-    }
+    },
+    "files": ["lib"]
 }
