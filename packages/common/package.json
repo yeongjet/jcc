@@ -2,12 +2,12 @@
     "name": "@jcc/common",
     "version": "0.0.2",
     "description": "The C compiler implemented in JavaScript",
-    "main": "lib/index.js",
-    "typings": "lib/index.d.ts",
+    "main": "lib",
+    "typings": "lib",
     "author": "yeongjet",
     "license": "BSD 2-Clause",
     "scripts": {
-        "build": "tsc",
+        "build": "npx rimraf */**/*.js && tsc",
         "test": "jest"
     },
     "files": [

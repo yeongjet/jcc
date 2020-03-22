@@ -1,49 +1,52 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable quotes */
-import Mock from 'mockjs'
-import { TrigraphSequence, WhiteSpace } from '@jcc/common'
+import { Random } from 'mockjs'
+import { trigraphSequence, whiteSpace } from '@jcc/common/definition'
 
-export const common = [
-    [
-        '@integer()',
-        '@integer(0,100)',
-        '@float()',
-        '@float(60, 100, 3)',
-        '@boolean()',
-        '@string(1,30)',
-        '@string("symbol")',
-        '李三',
-        '王八',
-        Mock.Random.word()
-    ]
-        .concat(['\t', '\v', ' ', '\f', '\n', '\r', '\n\r'])
-        .concat(['\\', '\\\n', '\n\\', '\\\\', '\n\n'])
-        .concat(['???', '=(', '(/)', "'!", '<>', "-'"])
-        .concat(['???=', '?==', '==?', '?=?', '?==?', '==='])
-        .concat(['???(', '?((', '((?', '?(?', '?((?', '((('])
-        .concat(['???/', '?//', '//?', '?/?', '?//?', '///'])
-        .concat(['???)', '?))', '))?', '?)?', '?))?', ')))'])
-        .concat(["???'", "?''", "''?", "?'?", "?''?", "'''"])
-        .concat(['???<', '?<<', '<<?', '?<?', '?<<?', '<<<'])
-        .concat(['???!', '?!!', '!!?', '?!?', '?!!?', '!!!'])
-        .concat(['???>', '?>>', '>>?', '?>?', '?>>?', '>>>'])
-        .concat(['???-', '?--', '--?', '?-?', '?--?', '---'])
-        .concat(['\\*', '/*', '*/', '//', '///', '/**/', '//*/', '/*//', '*\\', '//\\', '/\\\n/'])
-        .concat([
-            '"',
-            "'",
-            '"',
-            "'",
-            "'你好/*注释*/abc'",
-            '"你好/*注释*/abc"',
-            '"你好/**/abc"',
-            '"/**/abc"',
-            '"abc/**/"',
-            '"/**/"'
-        ])
-        .concat([' ', '  ', '   '])
-        .concat(WhiteSpace.set)
-        .concat(TrigraphSequence.set)
+const baseSchema = [
+    '@integer()', // 大整数(默认)
+    '@integer(0,1000)', // 小整数
+    '@float()', // 大浮点数(默认)
+    '@float(0, 1000, 5)', // 小浮点数
+    '@boolean()', // 布尔值
+    '@string()', // 随机字符
+    '@string(lower)', // 小写英文字母
+    '@string(upper)', // 大写英文字母
+    '@string("symbol")', // 标点符号
+    '@string("中文字符测试")' // 中文字符
+]
+
+const trigraphSequenceSchema = [
+    ...trigraphSequence,
+    ...['???', '=(', '(/)', "'!", '<>', "-'"],
+    ...['???=', '?==', '==?', '?=?', '?==?', '==='],
+    ...['???(', '?((', '((?', '?(?', '?((?', '((('],
+    ...['???/', '?//', '//?', '?/?', '?//?', '///'],
+    ...['???)', '?))', '))?', '?)?', '?))?', ')))'],
+    ...["???'", "?''", "''?", "?'?", "?''?", "'''"],
+    ...['???<', '?<<', '<<?', '?<?', '?<<?', '<<<'],
+    ...['???!', '?!!', '!!?', '?!?', '?!!?', '!!!'],
+    ...['???>', '?>>', '>>?', '?>?', '?>>?', '>>>'],
+    ...['???-', '?--', '--?', '?-?', '?--?', '---']
+]
+
+const whiteSpaceSchema = [
+    ...whiteSpace,
+    ...['\n\r'],
+    ...[' ', '  ', '   '],
+    ...['\\', '\\\n', '\n\\', '\\\\', '\n\n']
+]
+
+const commentSchema = [
+    ...[ '\\*', '/*', '*/', '//', '///', '/**/', '//*/', '/*//', '*\\', '//\\', '/\\\n/'],
+    ...[ '"', "'", '"', "'", "'注/*释*/abc'", '"注/*释*/abc"', '"注释/**/abc"', '"/**/abc"', '"abc/**/"', '"/**/"']
+]
+
+export const mockSchema = [
+    ...baseSchema,
+    ...whiteSpaceSchema,
+    ...trigraphSequenceSchema,
+    ...commentSchema
 ]
 
 // replaceComment

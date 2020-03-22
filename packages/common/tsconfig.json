@@ -11,9 +11,7 @@
         "skipLibCheck": true,
         "noImplicitThis": false,
         "noImplicitAny": false,
-        "lib": ["es2018"],
-        "rootDir": "./src",
-        "outDir": "./lib"
+        "lib": ["es2018"]
     },
     "exclude": ["**/node_modules", "**/lib"]
 }

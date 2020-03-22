@@ -1,16 +1,23 @@
 /* eslint-disable quotes */
+import R from 'ramda'
 import fs from 'fs-extra'
-import Mock from 'mockjs'
-const countLinesInFile = require('count-lines-in-file')
-import * as Remap from '../../mapper'
-import { TrigraphSequence, WhiteSpace } from '@jcc/common'
-import * as TestData from './remap.data'
+import path from 'path'
+import { mock, Random } from 'mockjs'
+import countLine from 'count-lines'
+import {
+    splice,
+    mapNewLine,
+    mapComment,
+    mapWhiteSpaceSequence
+} from '../mapper'
+import { trigraphSequence } from '@jcc/common/definition'
+import { mockSchema } from './mock-data'
 
 const getRandomString = (number, mockArray) => {
-    const randomArray = Mock.mock({
+    const randomArray = mock({
         [`array|${number}`]: mockArray
     }).array
-    const randomString = _.flatten(randomArray)
+    const randomString = R.flatten(randomArray)
         .sort((a, b) => (Math.random() > 0.5 ? -1 : 1))
         .join('')
     return randomString
@@ -92,53 +99,42 @@ const getCountOfCharInString = (str1, str2) => {
     return match ? match.length : 0
 }
 
-const countLine = pathName => {
-    return new Promise((resolve, reject) => {
-        countLinesInFile(pathName, (error: Error, line: number) => {
-            if (error) {
-                reject(error)
-            }
-            resolve(line)
-        })
-    })
-}
-
-test('remapNewLineCharact', () => {
-    const randomString = getRandomString(300, TestData.common[0])
-    const resultString = Remap.mapNewLineCharact(randomString)
+test('mapNewLine', () => {
+    const randomString = getRandomString(300, mockSchema)
+    const resultString = mapNewLine(randomString)
     const expectString = randomString.replace(/\r\n/g, '\n')
     expect(resultString).toEqual(expectString)
 })
 
-test('remapTrigraphSequence', () => {
-    const randomString = getRandomString(300, TestData.common[0])
-    let expectString = randomString
-    const resultString = Remap.mapTrigraphSequence(randomString)
-    for (let i = 0; i < TrigraphSequence.set.length; i++) {
-        const sequenceKey = TrigraphSequence.set[i]
-        const sequence = _.find(TrigraphSequence.map, { key: sequenceKey })
-        const splitArray = sequenceKey.split('')
-        const regExp =
-            '\\' + splitArray[0] + '\\' + splitArray[1] + '\\' + splitArray[2]
-        expectString = expectString.replace(
-            new RegExp(regExp, 'g'),
-            sequence.value
-        )
-    }
-    expect(resultString).toEqual(expectString)
-})
+// test('remapTrigraphSequence', () => {
+//     const randomString = getRandomString(300, TestData.common[0])
+//     let expectString = randomString
+//     const resultString = Remap.mapTrigraphSequence(randomString)
+//     for (let i = 0; i < TrigraphSequence.set.length; i++) {
+//         const sequenceKey = TrigraphSequence.set[i]
+//         const sequence = R.find(TrigraphSequence.map, { key: sequenceKey })
+//         const splitArray = sequenceKey.split('')
+//         const regExp =
+//             '\\' + splitArray[0] + '\\' + splitArray[1] + '\\' + splitArray[2]
+//         expectString = expectString.replace(
+//             new RegExp(regExp, 'g'),
+//             sequence.value
+//         )
+//     }
+//     expect(resultString).toEqual(expectString)
+// })
 
 test('splice', () => {
-    const randomString = getRandomString(300, TestData.common[0])
+    const randomString = getRandomString(300, mockSchema)
     let expectString = randomString
-    const resultString = Remap.splice(randomString)
+    const resultString = splice(randomString)
     expectString = expectString.replace(new RegExp('\\\\\n', 'g'), '')
     expect(resultString).toEqual(expectString)
 })
 
 test('replaceComment', () => {
-    const randomString = getRandomString(300, TestData.common[0])
-    const resultString = Remap.replaceComment(randomString)
+    const randomString = getRandomString(300, mockSchema)
+    const resultString = mapComment(randomString)
     const stringArray = spliceSourceByQuote(resultString)
     let isCommentAInString = false
     let isCommentBInString = false
@@ -174,7 +170,7 @@ test('replaceComment', () => {
     ).toEqual(true)
 })
 
-test('replaceWhiteSpaceSequence', async () => {
+test('mapWhiteSpaceSequence', async () => {
     // let testSet = TestData.replaceWhiteSpaceSequence[0]
     // for (let i = 0; i < testSet.length; i++) {
     //     fs.appendFileSync('testSet.txt', `----------------${i}------------\n`)
@@ -192,29 +188,27 @@ test('replaceWhiteSpaceSequence', async () => {
     // 奇怪: 打开before和after的输出文件对比并不符合要求(after文件把有些换行合并成一行)，但是测试却通过了，
     // 把before文件增加一个字符再删除，再用修改过的before文件当作测试数据，输出的after文件却符合要求(不会自动合并行)
     // 把RandomArray中whitespace的\r去掉就正常了，可能是\r的问题
-    const pathPrefix = 'packages/preprocessor/test/remap.out'
-    const randomString = getRandomString(300, TestData.common[0])
+    const pathPrefix = path.join(__dirname, 'out')
+    const testString = getRandomString(300, mockSchema)
+
+    const lineCountExpected = await countLine(testString)
+    console.log(`lineCountExpected: ${lineCountExpected}`)
+    const resultString = mapWhiteSpaceSequence(testString)
+    const expectString = testString.replace(/[ \f\r\t\v]/g, ' ')
     fs.writeFileSync(
-        `${pathPrefix}/replaceWhiteSpaceSequence.before.out`,
-        randomString
+        `${pathPrefix}/mapWhiteSpaceSequence-before.out`,
+        expectString
     )
-    const beforeLine = await countLine(
-        `${pathPrefix}/replaceWhiteSpaceSequence.before.out`
-    )
-    console.log(`before line: ${beforeLine}`)
-    const resultString = Remap.replaceWhiteSpaceSequence(randomString)
-    const expectString = resultString.replace(/[ \f\r\t\v]/g, ' ')
     fs.writeFileSync(
-        `${pathPrefix}/replaceWhiteSpaceSequence.after.out`,
+        `${pathPrefix}/mapWhiteSpaceSequence-after.out`,
         resultString
     )
-    const afterLine = await countLine(
-        `${pathPrefix}/replaceWhiteSpaceSequence.after.out`
-    )
+    const afterLine = await countLine(resultString)
+    console.log()
     console.log(`after line: ${afterLine}`)
-    fs.unlinkSync(`${pathPrefix}/replaceWhiteSpaceSequence.before.out`)
-    fs.unlinkSync(`${pathPrefix}/replaceWhiteSpaceSequence.after.out`)
-    expect(beforeLine === afterLine && expectString.indexOf('  ') < 0).toEqual(
-        true
-    )
+    // fs.unlinkSync(`${pathPrefix}/replaceWhiteSpaceSequence.before.out`)
+    // fs.unlinkSync(`${pathPrefix}/replaceWhiteSpaceSequence.after.out`)
+    expect(
+        lineCountExpected === afterLine && resultString.indexOf('  ') < 0
+    ).toEqual(true)
 })
