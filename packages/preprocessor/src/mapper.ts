@@ -93,7 +93,7 @@ export const splice = (s: string): string => {
 /**
  * 注释替换为一个空格
  */
-export const mapCommentToOneSpace = (s: string): string => {
+export const mapComment = (s: string): string => {
     let r = ''
     for (let i = 0; i < s.length; i++) {
         if (s[i] === "'" || s[i] === '"') {
@@ -142,7 +142,7 @@ export const mapCommentToOneSpace = (s: string): string => {
 /**
  * 把连续的空白字符替换为一个空格字符
  */
-export const mapWhiteSpaceSequenceToOneSpace = (s: string): string => {
+export const mapWhiteSpaceSequence = (s: string): string => {
     let r = ''
     const replaceSet = R.filter(n => n !== '\n', whiteSpace)
     for (let i = 0; i < s.length; i++) {
